@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.mentee.power.fintrack.service.FinanceServiceTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2025-05-09T13:46:10" hostname="SOMETHING" time="0.418">
+  <properties/>
+  <testcase name="Удаление несуществующей транзакции возвращает false" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.281"/>
+  <testcase name="Расчет баланса без транзакций возвращает ноль" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.015"/>
+  <testcase name="Добавление валидной транзакции" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.011"/>
+  <testcase name="Добавление транзакции с пустым описанием разрешено" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.01"/>
+  <testcase name="Получение транзакций по несуществующему типу возвращает пустой список" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.003"/>
+  <testcase name="Проверка порядка сортировки по дате" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.006"/>
+  <testcase name="Получение всех транзакций" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.006"/>
+  <testcase name="Добавление транзакции с null-категорией вызывает исключение" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.007"/>
+  <testcase name="Граничный случай: минимально допустимая сумма (0.01)" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.001"/>
+  <testcase name="Удаление существующей транзакции" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.004"/>
+  <testcase name="Получение транзакций по категории" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.004"/>
+  <testcase name="Добавление транзакции с отрицательной суммой вызывает исключение" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.002"/>
+  <testcase name="Получение итогов по категориям расходов" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.048"/>
+  <testcase name="Расчет баланса с несколькими транзакциями" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.001"/>
+  <testcase name="Добавление транзакции с нулевой суммой вызывает исключение" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.001"/>
+  <testcase name="Получение транзакций по типу" classname="ru.mentee.power.fintrack.service.FinanceServiceTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FinanceConsoleApp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">final-java-core</a> &gt; <a href="index.source.html" class="el_package">ru.mentee.power.fintrack.model</a> &gt; <span class="el_source">FinanceConsoleApp.java</span></div><h1>FinanceConsoleApp.java</h1><pre class="source lang-java linenums">package ru.mentee.power.fintrack.model;
+
+import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import ru.mentee.power.fintrack.cli.Transaction;
+import ru.mentee.power.fintrack.service.TransactionService;
+
+/**
+ * Класс для демонстрации работы классов Transaction и TransactionService.
+ */
+<span class="nc" id="L14">public class FinanceConsoleApp {</span>
+
+<span class="nc" id="L16">  private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);</span>
+  private static final String COMMAND_PROMPT = &quot;\n&gt; &quot;;
+  private static final String INVALID_COMMAND_MESSAGE = &quot;Неизвестная команда. &quot;
+      + &quot;Введите 'help' для списка команд.&quot;;
+
+<span class="nc" id="L21">  private final TransactionService transactionService = new TransactionService();</span>
+<span class="nc" id="L22">  private final Scanner inputScanner = new Scanner(System.in);</span>
+
+  public static void main(String[] args) {
+<span class="nc" id="L25">    new FinanceConsoleApp().startApplication();</span>
+<span class="nc" id="L26">  }</span>
+
+  private void startApplication() {
+<span class="nc" id="L29">    printWelcomeMessage();</span>
+<span class="nc" id="L30">    runCommandLoop();</span>
+<span class="nc" id="L31">    shutdownApplication();</span>
+<span class="nc" id="L32">  }</span>
+
+  private void runCommandLoop() {
+<span class="nc" id="L35">    boolean isRunning = true;</span>
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">    while (isRunning) {</span>
+<span class="nc" id="L38">      System.out.print(COMMAND_PROMPT);</span>
+<span class="nc" id="L39">      String userInput = inputScanner.nextLine().trim();</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">      if (userInput.isEmpty()) {</span>
+<span class="nc" id="L42">        continue;</span>
+      }
+
+<span class="nc" id="L45">      String[] inputParts = userInput.split(&quot;\\s+&quot;, 2);</span>
+<span class="nc" id="L46">      String mainCommand = inputParts[0].toLowerCase();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">      String commandArguments = inputParts.length &gt; 1 ? inputParts[1] : &quot;&quot;;</span>
+
+      try {
+<span class="nc" id="L50">        isRunning = processUserCommand(mainCommand, commandArguments);</span>
+<span class="nc" id="L51">      } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L52">        System.out.println(&quot;Ошибка: &quot; + e.getMessage());</span>
+<span class="nc" id="L53">      }</span>
+<span class="nc" id="L54">    }</span>
+<span class="nc" id="L55">  }</span>
+
+  private boolean processUserCommand(String command, String arguments) {
+<span class="nc bnc" id="L58" title="All 7 branches missed.">    switch (command) {</span>
+<span class="nc" id="L59">      case &quot;add&quot; -&gt; handleAddCommand(arguments);</span>
+<span class="nc" id="L60">      case &quot;list&quot; -&gt; handleListCommand(arguments);</span>
+<span class="nc" id="L61">      case &quot;balance&quot; -&gt; displayCurrentBalance();</span>
+<span class="nc" id="L62">      case &quot;summary&quot; -&gt; displayExpenseSummary();</span>
+<span class="nc" id="L63">      case &quot;delete&quot; -&gt; handleDeleteCommand(arguments);</span>
+      case &quot;exit&quot; -&gt; {
+<span class="nc" id="L65">        return false;</span>
+      }
+<span class="nc" id="L67">      default -&gt; System.out.println(INVALID_COMMAND_MESSAGE);</span>
+    }
+<span class="nc" id="L69">    return true;</span>
+  }
+
+  // Реализации обработчиков команд
+  private void handleAddCommand(String arguments) {
+<span class="nc" id="L74">    String[] addCommandParts = arguments.split(&quot;\\s+&quot;, 4);</span>
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    if (addCommandParts.length &lt; 3) {</span>
+<span class="nc" id="L77">      throw new IllegalArgumentException(</span>
+          &quot;Формат команды: add [income/expense] [сумма] [категория] [описание]&quot;
+      );
+    }
+
+<span class="nc" id="L82">    Transaction.TransactionType transactionType = parseTransactionType(addCommandParts[0]);</span>
+<span class="nc" id="L83">    BigDecimal amount = parseTransactionAmount(addCommandParts[1]);</span>
+<span class="nc" id="L84">    Transaction.Category category = parseTransactionCategory(addCommandParts[2]);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    String description = addCommandParts.length &gt; 3 ? addCommandParts[3] : &quot;&quot;;</span>
+
+<span class="nc" id="L87">    transactionService.addTransaction(transactionType, amount, category, description);</span>
+<span class="nc" id="L88">    System.out.println(&quot;✅ Транзакция успешно добавлена&quot;);</span>
+<span class="nc" id="L89">  }</span>
+
+  private void handleListCommand(String arguments) {
+<span class="nc" id="L92">    String[] listCommandParts = arguments.split(&quot;\\s+&quot;);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">    if (listCommandParts.length &lt; 1) {</span>
+<span class="nc" id="L94">      throw new IllegalArgumentException(&quot;Укажите тип списка: all, income или expense&quot;);</span>
+    }
+
+<span class="nc bnc" id="L97" title="All 4 branches missed.">    switch (listCommandParts[0].toLowerCase()) {</span>
+<span class="nc" id="L98">      case &quot;all&quot; -&gt; displayTransactions(transactionService.getAllTransactions());</span>
+<span class="nc" id="L99">      case &quot;income&quot; -&gt; displayTransactions(transactionService</span>
+<span class="nc" id="L100">          .getTransactionsByType(Transaction.TransactionType.INCOME));</span>
+<span class="nc" id="L101">      case &quot;expense&quot; -&gt; displayTransactions(transactionService</span>
+<span class="nc" id="L102">          .getTransactionsByType(Transaction.TransactionType.EXPENSE));</span>
+<span class="nc" id="L103">      default -&gt; throw new IllegalArgumentException(&quot;Неподдерживаемый тип списка&quot;);</span>
+    }
+<span class="nc" id="L105">  }</span>
+
+  private void handleDeleteCommand(String arguments) {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    if (arguments.isEmpty()) {</span>
+<span class="nc" id="L109">      throw new IllegalArgumentException(&quot;Укажите ID транзакции&quot;);</span>
+    }
+
+<span class="nc" id="L112">    int transactionId = Integer.parseInt(arguments);</span>
+<span class="nc" id="L113">    boolean isDeleted = transactionService.deleteTransaction(transactionId);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">    System.out.println(isDeleted ? &quot;✅ Транзакция удалена&quot; : &quot;⚠️ Транзакция не найдена&quot;);</span>
+<span class="nc" id="L115">  }</span>
+
+  // Методы отображения данных
+  private void displayTransactions(List&lt;Transaction&gt; transactions) {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">    if (transactions.isEmpty()) {</span>
+<span class="nc" id="L120">      System.out.println(&quot;\nНет данных для отображения&quot;);</span>
+<span class="nc" id="L121">      return;</span>
+    }
+
+<span class="nc" id="L124">    System.out</span>
+<span class="nc" id="L125">        .println(&quot;\n┌─────┬────────────┬──────────┬────────────┬──────────┬────────────────┐&quot;);</span>
+<span class="nc" id="L126">    System.out.println(&quot;│ ID │    Дата    │   Тип    │ Категория  │  Сумма   │   Описание     │&quot;);</span>
+<span class="nc" id="L127">    System.out.println(&quot;├─────┼────────────┼──────────┼────────────┼──────────┼────────────────┤&quot;);</span>
+
+<span class="nc bnc" id="L129" title="All 2 branches missed.">    for (Transaction transaction : transactions) {</span>
+<span class="nc" id="L130">      System.out.printf(</span>
+          &quot;│ %-3d │ %-10s │ %-8s │ %-10s │ %8.2f │ %-14s │%n&quot;,
+<span class="nc" id="L132">          transaction.getId(),</span>
+<span class="nc" id="L133">          transaction.getDate().format(DATE_FORMATTER),</span>
+<span class="nc" id="L134">          transaction.getTransactionType(),</span>
+<span class="nc" id="L135">          transaction.getCategory(),</span>
+<span class="nc" id="L136">          transaction.getSum(),</span>
+<span class="nc" id="L137">          transaction.getDescription()</span>
+      );
+<span class="nc" id="L139">    }</span>
+<span class="nc" id="L140">    System.out.println(&quot;└─────┴────────────┴──────────┴────────────┴──────────┴────────────────┘&quot;);</span>
+<span class="nc" id="L141">  }</span>
+
+  private void displayCurrentBalance() {
+<span class="nc" id="L144">    BigDecimal balance = transactionService.calculateBalance();</span>
+<span class="nc" id="L145">    System.out.printf(&quot;\nТекущий баланс: %+.2f\n&quot;, balance);</span>
+<span class="nc" id="L146">  }</span>
+
+  private void displayExpenseSummary() {
+<span class="nc" id="L149">    Map&lt;Transaction.Category, BigDecimal&gt; summary = transactionService.getExpensesByCategory();</span>
+
+<span class="nc bnc" id="L151" title="All 2 branches missed.">    if (summary.isEmpty()) {</span>
+<span class="nc" id="L152">      System.out.println(&quot;\nНет данных о расходах&quot;);</span>
+<span class="nc" id="L153">      return;</span>
+    }
+
+<span class="nc" id="L156">    System.out.println(&quot;\nКатегория расходов │ Сумма&quot;);</span>
+<span class="nc" id="L157">    System.out.println(&quot;───────────────────┼──────────&quot;);</span>
+<span class="nc" id="L158">    summary.forEach((category, amount) -&gt;</span>
+<span class="nc" id="L159">        System.out.printf(&quot; %-17s │ %8.2f%n&quot;, category, amount)</span>
+    );
+<span class="nc" id="L161">  }</span>
+
+  // Вспомогательные методы
+  private Transaction.TransactionType parseTransactionType(String typeInput) {
+<span class="nc bnc" id="L165" title="All 3 branches missed.">    return switch (typeInput.toLowerCase()) {</span>
+<span class="nc" id="L166">      case &quot;income&quot; -&gt; Transaction.TransactionType.INCOME;</span>
+<span class="nc" id="L167">      case &quot;expense&quot; -&gt; Transaction.TransactionType.EXPENSE;</span>
+<span class="nc" id="L168">      default -&gt; throw new IllegalArgumentException(&quot;Неподдерживаемый тип транзакции&quot;);</span>
+    };
+  }
+
+  private Transaction.Category parseTransactionCategory(String categoryInput) {
+<span class="nc" id="L173">    return Transaction.Category.valueOf(categoryInput.toUpperCase());</span>
+  }
+
+  private BigDecimal parseTransactionAmount(String amountInput) {
+    try {
+<span class="nc" id="L178">      BigDecimal amount = new BigDecimal(amountInput);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">      if (amount.compareTo(BigDecimal.ZERO) &lt;= 0) {</span>
+<span class="nc" id="L180">        throw new IllegalArgumentException(&quot;Сумма должна быть больше нуля&quot;);</span>
+      }
+<span class="nc" id="L182">      return amount;</span>
+<span class="nc" id="L183">    } catch (NumberFormatException e) {</span>
+<span class="nc" id="L184">      throw new IllegalArgumentException(&quot;Неверный формат суммы&quot;);</span>
+    }
+  }
+
+  private void printWelcomeMessage() {
+<span class="nc" id="L189">    String helpText = &quot;&quot;&quot;</span>
+        ====================================
+        🏦 Финансовый менеджер - Версия 1.0
+        ====================================
+        
+        Доступные команды:
+        
+        📥 Добавление транзакций:
+          add income &lt;сумма&gt; &lt;категория&gt; [описание]
+          add expense &lt;сумма&gt; &lt;категория&gt; [описание]
+        
+        📊 Просмотр данных:
+          list all      - Все транзакции
+          list income   - Доходы
+          list expense  - Расходы
+          balance       - Текущий баланс
+          summary       - Статистика по расходам
+        
+        🗑 Управление:
+          delete &lt;id&gt;   - Удалить транзакцию
+          exit          - Выход
+        
+        📋 Доступные категории: 
+          • GOODS (Товары)
+          • TRANSPORT (Транспорт)
+          • SALARY (Зарплата)
+          • ENTERTAINMENT (Развлечения)
+        &quot;&quot;&quot;;
+<span class="nc" id="L217">    System.out.println(helpText);</span>
+<span class="nc" id="L218">  }</span>
+
+  private void shutdownApplication() {
+<span class="nc" id="L221">    inputScanner.close();</span>
+<span class="nc" id="L222">    System.out.println(&quot;\nРабота приложения завершена. До свидания! 👋&quot;);</span>
+<span class="nc" id="L223">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
