@@ -30,3 +30,10 @@ deleteTransaction(): удаление транзакции.
 Класс FinanceService:
 Покрытие инструкций (Line Coverage): 100%(34/34).
 Покрытие ветвей (Branch Coverage): 100%(16/16).
+
+3. Сборка проекта
+   Для сборки проекта выполините команду ./gradlew build. Собранный JAR-файл будет доступен в build\libs.
+
+4. Запуск приложения.
+   1. Через Gradle. Запустите программу через ./gradlew run
+   2. Через JAR-файл. Запустите через команду java -jar build/libs/your-project-name-{version}.jar(ВАЖНО! Укажите актуальную версию вашего проекта в {version})
