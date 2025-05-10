@@ -1,4 +1,5 @@
 # final-java-core
+[![Java CI with Gradle](https://github.com/danilaplayter/final-java-core/actions/workflows/main.yml/badge.svg)](https://github.com/danilaplayter/final-java-core/actions/workflows/main.yml)
 CoinKeeper — это интуитивное приложение для управления личными финансами, разработанное для упрощения контроля над доходами, расходами.
 
 1. Реализованные методы :
