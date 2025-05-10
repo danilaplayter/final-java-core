@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<checkstyle version="10.12.5">
-<file name="C:\Users\danil\IdeaProjects\final-java-core\src\main\java\ru\mentee\power\fintrack\cli\Transaction.java">
-</file>
-<file name="C:\Users\danil\IdeaProjects\final-java-core\src\main\java\ru\mentee\power\fintrack\model\FinanceConsoleApp.java">
-</file>
-<file name="C:\Users\danil\IdeaProjects\final-java-core\src\main\java\ru\mentee\power\fintrack\service\TransactionService.java">
-</file>
-</checkstyle>
