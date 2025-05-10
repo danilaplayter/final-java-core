@@ -3,11 +3,11 @@ package ru.mentee.power.fintrack.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static ru.mentee.power.fintrack.cli.Transaction.Category.GOODS;
-import static ru.mentee.power.fintrack.cli.Transaction.Category.SALARY;
-import static ru.mentee.power.fintrack.cli.Transaction.Category.TRANSPORT;
-import static ru.mentee.power.fintrack.cli.Transaction.TransactionType.EXPENSE;
-import static ru.mentee.power.fintrack.cli.Transaction.TransactionType.INCOME;
+import static ru.mentee.power.fintrack.model.Transaction.Category.GOODS;
+import static ru.mentee.power.fintrack.model.Transaction.Category.SALARY;
+import static ru.mentee.power.fintrack.model.Transaction.Category.TRANSPORT;
+import static ru.mentee.power.fintrack.model.Transaction.TransactionType.EXPENSE;
+import static ru.mentee.power.fintrack.model.Transaction.TransactionType.INCOME;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.mentee.power.fintrack.cli.Transaction;
+import ru.mentee.power.fintrack.model.Transaction;
 
 class FinanceServiceTest {
 

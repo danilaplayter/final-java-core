@@ -7,8 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import ru.mentee.power.fintrack.cli.Transaction;
-import ru.mentee.power.fintrack.cli.Transaction.Category;
+import ru.mentee.power.fintrack.model.Transaction;
+import ru.mentee.power.fintrack.model.Transaction.Category;
 
 /**
  * Описываем основное поведение для объектов класса Transaction.
